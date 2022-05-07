@@ -7,7 +7,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# this is the confiiguration key that links me to my firebase db
+# this is the configuration key that links me to my firebase db
 firebaseConfig = {
   'apiKey': "AIzaSyBYgdf9hXlpXGnAKDn2frp1iibzRWkky5s",
   'authDomain': "dont-stop-trying.firebaseapp.com",
@@ -68,37 +68,48 @@ def delete():
     # this function deletes the current entry from cloud firestore
 
 
-# def login():
-#     u_name = str(Entry.get(open_entry))
-#     pas_word = str(Entry.get(open_entry2))
-#     try:
-#         login = auth.sign_in_with_email_and_password(u_name, pas_word)
-#         reply_label.config(text="Successfully logged in!")
-#         but.config(state=NORMAL)
-#     except:
-#         reply_label.config(text="Invalid email or password")
-#     return
-#     # this function uses firebase authetication to login
+def login():
+    u_name = str(Entry.get(open_entry))
+    pas_word = str(Entry.get(open_entry2))
+    try:
+        auth.sign_in_with_email_and_password(u_name, pas_word)
+        reply_label.config(text="Successfully logged in!")
+        but.config(state=NORMAL)
+    except:
+        reply_label.config(text="Invalid email or password")
+    return
+    # this function uses firebase authentication to login
+
 
 def calculate_gpa():
     dirr = db.collection('users')
     docs = dirr.where("courses", "array_contains", "CIT101").get()
+    # this is a query to database to get the all the information previously inputted
     for doc in docs:
         reply = (doc.to_dict())
         weight_value = (reply['units'])
+        # it loop over the result of the previous query to get the units of courses registered
+
         weight_value = map(int, weight_value)
         li = [i for i in weight_value]
+        # we turn the units into an array
         sum_unit = (sum(li))
+        #we get the sum of units in the array
 
         grade_value = (reply['grade'])
+        # it loop over the result of the previous query to get the units of courses registered
         grade_c = {'A': 5, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
         if grade_value:
             grad_list = [grade_c[grade] for grade in grade_value if grade in grade_c]
+            # this is a loop that gets the corresponding value of the grades in the dictionary and puts it in a list
             products = [a * b for a, b in zip(li, grad_list)]
+            # it multiplies the grades by their respective weights
             sum_points = sum(products)
+            # it gets the sum grades
             gpa = sum_points/sum_unit
             print(gpa)
             output.config(text=gpa)
+            #changes output to a label
             # this is the calculator function
 
 
@@ -134,7 +145,7 @@ user_label = Label(home, text='Email', style='bodyy.TLabel')
 user_label.pack(fill='both', expand=True)
 
 open_entry=  Entry(home, style='body.TEntry')
-open_entry.pack(fill='x',ipady=10)
+open_entry.pack(fill='x', ipady=10)
 
 pass_label = Label(home, text='Password', style='bodyy.TLabel')
 pass_label.pack(fill='both', expand=True)
@@ -145,8 +156,8 @@ open_entry2.pack(fill='x',ipady=10)
 reply_label = Label(home,text='', style='bodyy.TLabel')
 reply_label.pack(fill='both', expand=True)
 
-# but4=Button(home, text='Login', command=login, style='sexy.TButton')
-# but4.pack(fill='x', ipady=10)
+but4=Button(home, text='Login', command=login, style='sexy.TButton')
+but4.pack(fill='x', ipady=10)
 
 but = Button(home, text='Result upload' ,command=lambda:show_frame(calc), style='sexy.TButton', state=DISABLED)
 but.pack(fill='x', ipady=10)
