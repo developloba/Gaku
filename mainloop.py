@@ -7,7 +7,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# this is the confiiguration key that links me to my firebase db
+# this is the configuration key that links me to my firebase db
 firebaseConfig = {
   'apiKey': "AIzaSyBYgdf9hXlpXGnAKDn2frp1iibzRWkky5s",
   'authDomain': "dont-stop-trying.firebaseapp.com",
@@ -18,6 +18,8 @@ firebaseConfig = {
   'appId': "1:663416344871:web:528346d0ec57ca421f9902",
   'measurementId': "G-V8VH5PN6K4"
 }
+
+cap=0
 
 cred = credentials.Certificate("cert.json")
 firebase_admin.initialize_app(cred)
