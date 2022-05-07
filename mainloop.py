@@ -68,17 +68,17 @@ def delete():
     # this function deletes the current entry from cloud firestore
 
 
-# def login():
-#     u_name = str(Entry.get(open_entry))
-#     pas_word = str(Entry.get(open_entry2))
-#     try:
-#         login = auth.sign_in_with_email_and_password(u_name, pas_word)
-#         reply_label.config(text="Successfully logged in!")
-#         but.config(state=NORMAL)
-#     except:
-#         reply_label.config(text="Invalid email or password")
-#     return
-#     # this function uses firebase authetication to login
+def login():
+    u_name = str(Entry.get(open_entry))
+    pas_word = str(Entry.get(open_entry2))
+    try:
+        login = auth.sign_in_with_email_and_password(u_name, pas_word)
+        reply_label.config(text="Successfully logged in!")
+        but.config(state=NORMAL)
+    except:
+        reply_label.config(text="Invalid email or password")
+    return
+    # this function uses firebase authetication to login
 
 def calculate_gpa():
     dirr = db.collection('users')
@@ -134,7 +134,7 @@ user_label = Label(home, text='Email', style='bodyy.TLabel')
 user_label.pack(fill='both', expand=True)
 
 open_entry=  Entry(home, style='body.TEntry')
-open_entry.pack(fill='x',ipady=10)
+open_entry.pack(fill='x', ipady=10)
 
 pass_label = Label(home, text='Password', style='bodyy.TLabel')
 pass_label.pack(fill='both', expand=True)
@@ -145,8 +145,8 @@ open_entry2.pack(fill='x',ipady=10)
 reply_label = Label(home,text='', style='bodyy.TLabel')
 reply_label.pack(fill='both', expand=True)
 
-# but4=Button(home, text='Login', command=login, style='sexy.TButton')
-# but4.pack(fill='x', ipady=10)
+but4=Button(home, text='Login', command=login, style='sexy.TButton')
+but4.pack(fill='x', ipady=10)
 
 but = Button(home, text='Result upload' ,command=lambda:show_frame(calc), style='sexy.TButton', state=DISABLED)
 but.pack(fill='x', ipady=10)
