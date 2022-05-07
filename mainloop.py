@@ -19,8 +19,6 @@ firebaseConfig = {
   'measurementId': "G-V8VH5PN6K4"
 }
 
-cap=0
-
 cred = credentials.Certificate("cert.json")
 firebase_admin.initialize_app(cred)
 
@@ -74,33 +72,44 @@ def login():
     u_name = str(Entry.get(open_entry))
     pas_word = str(Entry.get(open_entry2))
     try:
-        login = auth.sign_in_with_email_and_password(u_name, pas_word)
+        auth.sign_in_with_email_and_password(u_name, pas_word)
         reply_label.config(text="Successfully logged in!")
         but.config(state=NORMAL)
     except:
         reply_label.config(text="Invalid email or password")
     return
-    # this function uses firebase authetication to login
+    # this function uses firebase authentication to login
+
 
 def calculate_gpa():
     dirr = db.collection('users')
     docs = dirr.where("courses", "array_contains", "CIT101").get()
+    # this is a query to database to get the all the information previously inputted
     for doc in docs:
         reply = (doc.to_dict())
         weight_value = (reply['units'])
+        # it loop over the result of the previous query to get the units of courses registered
+
         weight_value = map(int, weight_value)
         li = [i for i in weight_value]
+        # we turn the units into an array
         sum_unit = (sum(li))
+        #we get the sum of units in the array
 
         grade_value = (reply['grade'])
+        # it loop over the result of the previous query to get the units of courses registered
         grade_c = {'A': 5, 'B': 3, 'C': 2, 'D': 1, 'F': 0}
         if grade_value:
             grad_list = [grade_c[grade] for grade in grade_value if grade in grade_c]
+            # this is a loop that gets the corresponding value of the grades in the dictionary and puts it in a list
             products = [a * b for a, b in zip(li, grad_list)]
+            # it multiplies the grades by their respective weights
             sum_points = sum(products)
+            # it gets the sum grades
             gpa = sum_points/sum_unit
             print(gpa)
             output.config(text=gpa)
+            #changes output to a label
             # this is the calculator function
 
 
